@@ -10,7 +10,6 @@ import java.util.*;
  *
  * @author NABIL MUHAMMAD S
  */
-
 // Class utama
 public class SmartLibrary {
 
@@ -39,7 +38,7 @@ public class SmartLibrary {
 
         boolean ditemukan = false;
 
-        for (int i = 0; i < daftarKoleksi.length; i++) {
+        for (int i = 0; i < jumlahKoleksi; i++) {
             if (daftarKoleksi[i].getTahunTerbit() == tahunTerbit) {
                 System.out.println("Ditemukan: ");
                 daftarKoleksi[i].tampilkanInfo();
@@ -149,7 +148,7 @@ public class SmartLibrary {
                     System.out.println("\n -- Fitur Cari Koleksi -- ");
                     System.out.println("1. Cari berdasarkan judul");
                     System.out.println("2. Cari berdasarkan tahun terbit");
-                    System.out.println("Pilih (1/2)");
+                    System.out.print("Pilih (1-2): ");
 
                     int modeCari = scanner.nextInt();
                     scanner.nextLine();
@@ -165,7 +164,6 @@ public class SmartLibrary {
                         scanner.nextLine();
                         cariKoleksi(angkaKunci, daftarKoleksi, jumlahKoleksi);
                     }
-                    scanner.nextLine();
                     break;
 
                 case 4:
