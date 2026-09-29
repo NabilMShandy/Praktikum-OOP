@@ -10,6 +10,8 @@ import java.util.*;
  *
  * @author NABIL MUHAMMAD S
  */
+
+// Class utama
 public class SmartLibrary {
 
 //    Method 1
@@ -50,9 +52,13 @@ public class SmartLibrary {
         }
     }
 
+    public static void simulasiPinjam(Koleksi item) {
+        item.caraPinjam();
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        
+
         Koleksi[] daftarKoleksi = new Koleksi[10];
 
         int jumlahKoleksi = 0;
@@ -68,7 +74,7 @@ public class SmartLibrary {
             System.out.println("2. Lihat Daftar Koleksi");
             System.out.println("3. Mencari Koleksi (Fitur Overloading)");
             System.out.println("4. Keluar");
-            System.out.print("Pilih Menu (1-3): ");
+            System.out.print("Pilih Menu (1-4): ");
 
             int pilihan = scanner.nextInt();
             scanner.nextLine();
@@ -79,7 +85,8 @@ public class SmartLibrary {
                         System.out.println("--Pilih Jenis Koleksi --");
                         System.out.println("1. Buku Cetak Fisik");
                         System.out.println("2. E-Book Digital");
-                        System.out.print("Pilihan (1/2): ");
+                        System.out.println("3. Majalah");
+                        System.out.print("Pilihan (1-3): ");
 
                         int jenis = scanner.nextInt();
                         scanner.nextLine();
@@ -104,7 +111,12 @@ public class SmartLibrary {
                             int ukuranFile = scanner.nextInt();
                             scanner.nextLine();
                             daftarKoleksi[jumlahKoleksi] = new EBook(judulBaru, pengarangBaru, tahunTerbitBaru, ukuranFile);
+                        } else if (jenis == 3) {
+                            System.out.print("Masukkan Edisi Majalah: ");
+                            String edisiBaru = scanner.nextLine();
+                            daftarKoleksi[jumlahKoleksi] = new Majalah(judulBaru, pengarangBaru, tahunTerbitBaru, edisiBaru);
                         }
+
                         jumlahKoleksi++;
                         System.out.println("Koleksi baru ditambahkan!");
 
@@ -124,10 +136,10 @@ public class SmartLibrary {
                         for (int i = 0; i < jumlahKoleksi; i++) {
                             System.out.printf((i + 1) + ". ");
                             daftarKoleksi[i].tampilkanInfo();
-                            daftarKoleksi[i].caraPinjam();
+                            simulasiPinjam(daftarKoleksi[i]);
                             System.out.println();
                         }
-                        System.out.println("\nTotal Item Perpustakaan: " + Koleksi.totalKoleksiBerhasilDibuat);
+                        System.out.println("Total Item Perpustakaan: " + Koleksi.totalKoleksiBerhasilDibuat);
                     }
                     System.out.println("Tekan Enter untuk melanjutkan...");
                     scanner.nextLine();
@@ -143,16 +155,18 @@ public class SmartLibrary {
                     scanner.nextLine();
 
                     if (modeCari == 1) {
-                        System.out.println("Masukkan judul: ");
+                        System.out.print("Masukkan judul: ");
                         String kataKunci = scanner.nextLine();
                         cariKoleksi(kataKunci, daftarKoleksi, jumlahKoleksi);
 
                     } else if (modeCari == 2) {
-                        System.out.println("Masukkan tahun terbit: ");
+                        System.out.print("Masukkan tahun terbit: ");
                         int angkaKunci = scanner.nextInt();
                         scanner.nextLine();
                         cariKoleksi(angkaKunci, daftarKoleksi, jumlahKoleksi);
                     }
+                    scanner.nextLine();
+                    break;
 
                 case 4:
                     System.out.println("Terimakasih telah menggunakan smart library");
