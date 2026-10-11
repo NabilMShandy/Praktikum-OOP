@@ -8,7 +8,7 @@ package com.kampus.prakoop;
  *
  * @author R2-KD011
  */
-public class Majalah extends Koleksi {
+public class Majalah extends Koleksi implements DapatDipinjam {
 
     String edisi;
 
@@ -26,4 +26,15 @@ public class Majalah extends Koleksi {
     public void caraPinjam() {
         System.out.println("Barang dipinjam secara fisik ke meja administrasi.");
     }
+
+    @Override
+    public void hitungDendaKeterlambatan(){
+        System.out.println("Aturan denda Rp3.000 / hari keterlambatan");
+    }
+    
+    @Override
+    public void prosesPinjamFisik() {
+        System.out.println("-> [PROSES PINJAM] Anggota menyerahkan buku fisik & kartu perpus ke Kasir.");
+    }
+
 }

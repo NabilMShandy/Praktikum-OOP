@@ -8,7 +8,7 @@ package com.kampus.prakoop;
  *
  * @author NABIL MUHAMMAD S
  */
-public class BukuCetak extends Koleksi{
+public class BukuCetak extends Koleksi implements DapatDipinjam, DapatDinilai{
     private int jumlahHalaman;
     
     public BukuCetak(String judul, String pengarang, int tahunTerbit, int jumlahHalaman){
@@ -21,7 +21,24 @@ public class BukuCetak extends Koleksi{
         System.out.printf("[Buku Cetak] Judul: %-15s | Pengarang: %-10s | Tahun: %d  | Jumlah Halaman: %d Hal%n", this.judul, this.pengarang, this.tahunTerbit, this.jumlahHalaman);
     }
     
+    @Override
     public void caraPinjam(){
         System.out.println("-> Info Pinjam: Buku cetak wajib diambil fisik bukunya di meja administrasi perpustakaan.");
     }
+    
+    @Override
+    public void hitungDendaKeterlambatan(){
+        System.out.println("-> Aturan Denda Rp2000 / hari keterlambatan.");
+    }
+    
+    @Override
+    public void prosesPinjamFisik(){
+        System.out.println("-> [PROSES PINJAM] Anggota menyerahkan buku fisik & kartu perpus ke Kasir.");
+    }
+    
+    @Override
+    public void beriRating(int bintang){
+        System.out.println("-> [ULASAN BUKU] Buku fisik ini mendapat rating " + bintang + "/5 Bintang di aplikasi.");
+    }
+    
 }
