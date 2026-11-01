@@ -12,8 +12,13 @@ public class Majalah extends Koleksi implements DapatDipinjam {
 
     String edisi;
 
-    public Majalah(String judul, String pengarang, int tahunTerbit, String edisi) {
+    public Majalah(String judul, String pengarang, int tahunTerbit, String edisi) throws Exception{
         super(judul, pengarang, tahunTerbit);
+        
+        if(edisi.isEmpty()){
+            throw new Exception("Edisi harus punya inisialisasi!");
+        }
+        
         this.edisi = edisi;
     }
 

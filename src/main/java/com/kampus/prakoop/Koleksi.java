@@ -14,7 +14,11 @@ public abstract class Koleksi{
     protected int tahunTerbit;
     public static int totalKoleksiBerhasilDibuat = 0;
     
-    public Koleksi(String judul, String pengarang, int tahunTerbit){
+    public Koleksi(String judul, String pengarang, int tahunTerbit) throws Exception{
+        if(tahunTerbit <= 0){
+            throw new Exception("Tahun terbit tidak valid (tidak boleh nol atau negatif)!");
+        }
+        
         setJudul(judul);
         setPengarang(pengarang);
         setTahunTerbit(tahunTerbit);

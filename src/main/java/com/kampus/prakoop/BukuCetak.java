@@ -11,8 +11,12 @@ package com.kampus.prakoop;
 public class BukuCetak extends Koleksi implements DapatDipinjam, DapatDinilai{
     private int jumlahHalaman;
     
-    public BukuCetak(String judul, String pengarang, int tahunTerbit, int jumlahHalaman){
+    public BukuCetak(String judul, String pengarang, int tahunTerbit, int jumlahHalaman) throws Exception{
         super(judul, pengarang, tahunTerbit);
+        
+        if(jumlahHalaman <= 0){
+            throw new Exception("Jumlah halaman harus lebih dari 0!");
+        }
         this.jumlahHalaman = jumlahHalaman;
     }
     

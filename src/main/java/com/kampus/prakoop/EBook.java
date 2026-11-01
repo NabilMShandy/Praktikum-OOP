@@ -12,8 +12,13 @@ public class EBook extends Koleksi implements DapatDinilai{
 
     private int ukuranFileMb;
 
-    public EBook(String judul, String pengarang, int tahunTerbit, int ukuranFileMb) {
+    public EBook(String judul, String pengarang, int tahunTerbit, int ukuranFileMb) throws Exception {
         super(judul, pengarang, tahunTerbit);
+        
+        if(ukuranFileMb < 0){
+            throw new Exception("Ukuran file harus lebih dari 0Mb!");
+        }
+        
         this.ukuranFileMb = ukuranFileMb;
     }
 
