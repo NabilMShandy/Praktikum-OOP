@@ -4,9 +4,7 @@
  */
 package com.kampus.prakoop;
 
-import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.HashMap;
 import java.util.InputMismatchException;
 
 /**
@@ -16,35 +14,15 @@ import java.util.InputMismatchException;
 // Class utama
 public class SmartLibrary {
 
-//    Method 1
-    public static void cariKoleksi(String judul, ArrayList<Koleksi> daftarKoleksi) throws KoleksiTidakDitemukanException {
-        System.out.println("Mencari buku dengan judul: " + judul);
-
-        boolean ditemukan = false;
-
-        for (int i = 0; i < daftarKoleksi.size(); i++) {
-            if (daftarKoleksi.get(i).getJudul().equalsIgnoreCase(judul)) {
-                System.out.println("Ditemukan: ");
-                daftarKoleksi.get(i).tampilkanInfo();
-                ditemukan = true;
-            }
-        }
-
-        if (!ditemukan) {
-            throw new KoleksiTidakDitemukanException("Gagal : Koleksi dengan judul " + judul + " tidak terdaftar di sistem.");
-        }
-    }
-
     public static void simulasiPinjam(Koleksi item) {
         item.caraPinjam();
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        ArrayList<Koleksi> daftarKoleksi = new ArrayList<>();
-
-        HashMap<String, String> dataAnggota = new HashMap<>();
+        Perpustakaan perpusUnila = new Perpustakaan("Smart Library Unila");
+        perpusUnila.bukaPerpustakaan();
 
         int jumlahKoleksi = 0;
         boolean isRunning = true;
@@ -59,8 +37,9 @@ public class SmartLibrary {
             System.out.println("2. Lihat Daftar Koleksi");
             System.out.println("3. Cari Koleksi (Demo Custom Exception)");
             System.out.println("4. Manajemen Anggota (Demo HashMap)");
-            System.out.println("5. Keluar");
-            System.out.print("Pilih Menu 1-5 : ");
+            System.out.println("5. Peminjaman (Demo Association)");
+            System.out.println("6. Keluar");
+            System.out.print("Pilih Menu 1-6 : ");
 
             try {
                 int pilihan = scanner.nextInt();
@@ -79,29 +58,24 @@ public class SmartLibrary {
                         scanner.nextLine();
 
                         System.out.print("Masukkan Judul: ");
-                        String judulBaru = scanner.nextLine();
+                        String judul = scanner.nextLine();
 
                         System.out.print("Masukkan Pengarang: ");
-                        String pengarangBaru = scanner.nextLine();
+                        String pengarang = scanner.nextLine();
 
                         System.out.print("Masukkan Tahun Terbit: ");
-                        int tahunTerbitBaru = scanner.nextInt();
+                        int tahunTerbit = scanner.nextInt();
                         scanner.nextLine();
 
                         if (jenis == 1) {
                             System.out.print("Masukkan Jumlah Halaman: ");
-                            int halaman = scanner.nextInt();
-                            scanner.nextLine();
-                            daftarKoleksi.add(new BukuCetak(judulBaru, pengarangBaru, tahunTerbitBaru, halaman));
+                            perpusUnila.tambahKoleksi(new BukuCetak(judul, pengarang, tahunTerbit, scanner.nextInt()));
                         } else if (jenis == 2) {
                             System.out.print("Masukkan Ukuran File (MB): ");
-                            int ukuranFile = scanner.nextInt();
-                            scanner.nextLine();
-                            daftarKoleksi.add(new EBook(judulBaru, pengarangBaru, tahunTerbitBaru, ukuranFile));
+                            perpusUnila.tambahKoleksi(new EBook(judul, pengarang, tahunTerbit, scanner.nextInt()));
                         } else if (jenis == 3) {
                             System.out.print("Masukkan Edisi Majalah: ");
-                            String edisiBaru = scanner.nextLine();
-                            daftarKoleksi.add(new Majalah(judulBaru, pengarangBaru, tahunTerbitBaru, edisiBaru));
+                            perpusUnila.tambahKoleksi(new Majalah(judul, pengarang, tahunTerbit, scanner.nextLine()));
                         }
 
                         jumlahKoleksi++;
@@ -111,15 +85,7 @@ public class SmartLibrary {
 
                     case 2:
                         System.out.println("\n--- Daftar Koleksi Perpustakaan ---");
-                        if (daftarKoleksi.isEmpty()) {
-                            System.out.println(" Belum Ada buku yang tersimpan.");
-
-                        } else {
-                            for(int i = 0; i < daftarKoleksi.size(); i++){
-                                System.out.print((i+1) + ". ");
-                                daftarKoleksi.get(i).tampilkanInfo();
-                            }
-                        }
+                        perpusUnila.lihatSemuaKoleksi();
                         break;
 
                     case 3:
@@ -128,60 +94,75 @@ public class SmartLibrary {
                         String kataKunci = scanner.nextLine();
 
                         try {
-                            cariKoleksi(kataKunci, daftarKoleksi);
+                            perpusUnila.cariKoleksi(kataKunci);
                         } catch (KoleksiTidakDitemukanException e) {
                             System.out.println("Peringatan: " + e.getMessage());
-                        } finally {
-                            System.out.println("-> Sesi pencarian selesai dieksekusi.");
                         }
 
                         break;
 
                     case 4:
-                        System.out.println("\n-- Kelola Anggota (HashMap) --");
+                        System.out.println("\n-- Kelola Anggota (Hash Map) --");
                         System.out.println("1. Tambah Anggota Baru");
                         System.out.println("2. Cari Anggota via NPM");
                         System.out.println("3. Tampilkan Semua Anggota");
                         System.out.print("Pilih: ");
-                        int menuAnggota = scanner.nextInt();
+                        int menuA = scanner.nextInt();
                         scanner.nextLine();
 
-                        if (menuAnggota == 1) {
+                        if (menuA == 1) {
                             System.out.print("Masukkan NPM (sebagai Key): ");
                             String NPM = scanner.nextLine();
                             System.out.print("Masukkan Nama Lengkap (sebagai Value): ");
                             String nama = scanner.nextLine();
 
-                            dataAnggota.put(NPM, nama);
-                            System.out.println("Berhasil menambahkan anggota!)");
-                            
-                        } else if (menuAnggota == 2) {
-                            System.out.print("Masukkan NPM yang dicari: ");
-                            String searchNPM = scanner.nextLine();
+                            perpusUnila.tambahAnggota(new Anggota(NPM, nama));
 
-                            if (dataAnggota.containsKey(searchNPM)) {
-                                System.out.println("Ditemukan! Nama: " + dataAnggota.get(searchNPM));
-                            } else {
-                                System.out.println("Angota dengan NPM tersebut tidak terdaftar.");
-                            }
-                            
-                        } else if (menuAnggota == 3) {
-                            System.out.println("Total Anggota Terdaftar: " + dataAnggota.size());
-                            for (String keyNPM : dataAnggota.keySet()) {
-                                System.out.println("NPM: " + keyNPM + " | Nama: " + dataAnggota.get(keyNPM));
-                            }
+                        } else if (menuA == 2) {
+                            System.out.print("Masukkan NPM yang dicari: ");
+                            perpusUnila.cariAnggota(scanner.nextLine());
+
+                        } else if (menuA == 3) {
+                            perpusUnila.lihatSemuaAnggota();
                         }
                         break;
 
                     case 5:
-                        System.out.println("Terima kasih telah menggunakan Smart Library");
+                        System.out.println("\n --- SISTEM PEMINJAMAN (ASOSIASI) ---");
+                        System.out.print("Masukkan NPM peminjam: ");
+                        String inputNPM = scanner.nextLine();
+
+                        Anggota peminjam = perpusUnila.getAnggota(inputNPM);
+
+                        if (peminjam == null) {
+                            System.out.println("Gagal : Anggota belum terdaftar!");
+                        } else if (perpusUnila.getJumlahKoleksi() == 0) {
+                            System.out.println("Gagal : Belum ada koleksi yang bisa dipinjam!");
+                        } else {
+                            perpusUnila.lihatSemuaKoleksi();
+                            System.out.println("Pilih Nomor Koleksi yang dapat dipinjam: ");
+                            int noKoleksi = scanner.nextInt() - 1;
+                            scanner.nextLine();
+
+                            if (noKoleksi >= 0 && noKoleksi < perpusUnila.getJumlahKoleksi()) {
+
+                                Koleksi itemPinjam = perpusUnila.getKoleksi(noKoleksi);
+
+                                TransaksiPeminjaman.prosesPinjam(peminjam, itemPinjam);
+                            } else {
+                                System.out.println("Nomor Koleksi tidak valid!");
+                            }
+                        }
+                        break;
+                        
+                    case 6:
+                        System.out.println("Terima kasih telah menggunakan Smart Library!");
                         isRunning = false;
                         break;
-
                     default:
-                        System.out.println("Pilihan tidak valid.");
-
+                        System.out.println("Pilihan tidak valid, silahkan masukkan angka 1-6.");
                 }
+
             } catch (InputMismatchException e) {
                 System.out.println("\n[FATAL ERROR] Input tidak valid! Anda harus memasukkan angka.");
                 scanner.nextLine();
@@ -189,7 +170,6 @@ public class SmartLibrary {
                 System.out.println("\n[ERROR SYSTEM]: " + e.getMessage());
             }
         }
-
         scanner.close();
     }
 }
