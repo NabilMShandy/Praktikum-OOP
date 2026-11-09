@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.kampus.prakoop;
-
+import java.io.FileWriter;
+import java.io.IOException;
 /**
  *
  * @author NABIL MUHAMMAD S
@@ -20,5 +21,13 @@ public class TransaksiPeminjaman {
             ((DapatDipinjam) koleksi).prosesPinjamFisik();
         }
         System.out.println("--------------------------");
+        
+        try(FileWriter pipaTulis = new FileWriter("log_transaksi.txt", true)){
+            String log = "Peminjaman: " + anggota.getNama() + " | item: " + koleksi.getJudul() + "\n";
+            pipaTulis.write(log);
+        }
+        catch(IOException e){
+            System.out.println("Peringatan: Gagal menulis log transaksi ke file. " + e.getMessage());
+        }
     }
 }

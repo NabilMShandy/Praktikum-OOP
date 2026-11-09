@@ -4,11 +4,14 @@
  */
 package com.kampus.prakoop;
 
+import java.io.Serializable;
+
 /**
  *
  * @author NABIL MUHAMMAD S
  */
-public abstract class Koleksi{
+public abstract class Koleksi implements Serializable{
+    private static final long serialVersionUID = 1L;
     protected String judul;
     protected String pengarang;
     protected int tahunTerbit;
